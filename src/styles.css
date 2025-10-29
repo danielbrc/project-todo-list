@@ -1,0 +1,254 @@
+
+@font-face {
+  font-family: 'Crusoe';
+  src: url('./font/crusoe-text/CrusoeText-Regular.otf') format('otf'),
+      url('./font/crusoe-text/CrusoeText-Regular.ttf') format('truetype'),
+      url('./font/crusoe-text/CrusoeText-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background-color: beige;
+  font-family: Crusoe, serif;
+  padding: 20px 10px;
+}
+
+h2, h3, p {
+  margin: 0;
+}
+
+button {
+  background-color: #f0b429;
+  border: none;
+  padding: 4px 13px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+button:active {
+  opacity: 0.6;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+}
+
+form input {
+  border: none;
+  background: #e2e8f0;
+  border-radius: 15px;
+  padding: 5px;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+input[hidden=''] {
+  display: none !important;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 30px;
+  height: calc(100vh - 60px);
+}
+
+.sidebar, .main {
+  padding: 20px;
+} 
+
+.sidebar {
+  background-color: aquamarine;
+}
+
+.main {
+  background-color: cadetblue;
+}
+
+.modal {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 1px 1px 8px;
+  margin: auto;
+  padding: 20px;
+  width: 400px;
+  overflow: hidden;
+}
+
+::backdrop {
+  backdrop-filter: blur(8px);
+}
+
+#project-nav li {
+  cursor: pointer;
+}
+
+.task {
+  border: 3px solid black;
+  margin: 20px 10px;
+  display: grid;
+  font-size: 0.8rem;
+  grid-template-columns: 2.8em 4fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  align-items: center;
+  padding: 10px 0.8em;
+}
+
+.task label {
+  grid-area: 1 / 1 / 4 / 2;
+}
+
+.task span {
+  text-align: right;
+}
+
+.task p {
+  grid-area: 2 / 2 / 4 / 3;
+}
+
+.task[data-priority="high"] {
+  border-color: brown;
+}
+.task[data-priority="medium"] {
+  border-color: darkgoldenrod;
+}
+.task[data-priority="low"] {
+  border-color: palegreen;
+}
+
+form label + label {
+  display: block;
+  margin-top: 8px;
+}
+
+input#name {
+  width: 81%;
+}
+
+form textarea {
+  background-color: #e2e8f0;
+  border: none;
+  padding: 5px;
+  resize: none;
+  width: calc(100% - 10px);
+  border-radius: 15px;
+}
+
+fieldset {
+  margin: 0;
+  border-width: 1px;
+}
+
+.align-right {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+:root {
+  --form-control-color: #3476ff;
+  --form-control-disabled: #959495;
+}
+
+.fix-input {
+  font-family: system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.1;
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+}
+
+input[type="checkbox"] {
+  /* Hide the Native Checkbox Input */
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+
+  /* Custom unchecked checkbox styles */
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  /* transform: translateY(-0.075em); */
+  /* checked vs Unchecked State */
+  display: grid;
+  place-content: center;
+}
+
+/* checked vs Unchecked State */
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+
+  /* Creating a checkmark with clip-path */
+  transform-origin: bottom left;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+/* then it happens */
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+/* Disabled state */
+input[type="checkbox"]:disabled {
+  --form-control-color: var(--form-control-disabled);
+
+  color: var(--form-control-disabled);
+  cursor: not-allowed;
+}
+
+.top {
+  display: flex;
+  gap: 0 30px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.top p {
+  margin: 0;
+  flex-basis: 100%;
+}
+
+.settings {
+  gap: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.settings span {
+  border-radius: 19px;
+  display: inline-flex;
+  height: 16px;
+  cursor: pointer;
+  padding: 5px;
+  background: none;
+  opacity: 0.4;
+}
+
+.settings span:hover {
+  background-color: #f0b429;
+  transition: opacity .2s;
+  opacity: 1;
+}
+
+.settings img {
+  height: 16px;
+}

@@ -60,12 +60,9 @@ export class ProjectController {
   storedProject(stored) {
     for(const [key, project] of stored) {
       const { id, name, description, todos } = project;
-      // console.log('stored > ', id, name);
-      // console.log('todos > ', todos);
 
       const newProject = new Project(id, name, description);
       this.projects.set(id, newProject);
-      // this.activeProject = this.projects.get(this.activeId);
 
       this.storedTodo(id, todos);
     }
@@ -104,9 +101,7 @@ export class TodoController {
   }
 
   update(id, name, description, dueDate, priority, done) {
-    console.log('todos ',this.todos);
     const updatedTodo = new Todo(id, name, description, dueDate, priority, done);
-    console.log('updatedTodo', updatedTodo);
 
     this.todos.set(updatedTodo.id, updatedTodo);
     this.changeActiveTodo(updatedTodo.id);

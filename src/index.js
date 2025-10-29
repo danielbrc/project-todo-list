@@ -10,9 +10,3 @@ const container = document.querySelector(".container");
 const app = new AppTodo(container, projectController, todoController);
 
 app.init();
-
-// TODOS
-
-// editar deve salvar o formulario
-// add inputs de id (number) e done (checkbox)
-// debug da data em extenso

@@ -1,4 +1,3 @@
-
 export default class Todo {
   constructor(id, name, description, dueDate, priority, done = false) {
     this.id = id;

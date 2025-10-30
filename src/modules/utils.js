@@ -1,12 +1,12 @@
-import pencil from "./../icon/pencil.png";
-import trashCan from "./../icon/trash-can.png"
+import pencil from './../icon/pencil.png';
+import trashCan from './../icon/trash-can.png';
 
 // return a form data as object
 function formData(data) {
   const dataFrom = Object.fromEntries(new FormData(data));
-  const {id} = dataFrom;
+  const { id } = dataFrom;
 
-  if(id != ''){
+  if (id != '') {
     dataFrom.id = Number(id);
   }
 
@@ -34,19 +34,19 @@ function feedForm(dataObject, myForm) {
 function createElement(name, text, id, className, data) {
   const elem = document.createElement(name);
 
-  if(text){
+  if (text) {
     elem.innerText = text;
   }
 
-  if(id) {
+  if (id) {
     elem.id = id;
   }
 
-  if(className) {
+  if (className) {
     elem.classList.add(className);
   }
 
-  if(data) {
+  if (data) {
     for (const [key, value] of Object.entries(data)) {
       elem.dataset[key] = value;
     }
@@ -59,8 +59,14 @@ function createElement(name, text, id, className, data) {
 function settingElements(active) {
   const boxElement = createElement('div', null, null, 'settings');
 
-  const editIcon = createElement('img').setManyAttributes({ src: pencil, alt: 'Edit task' });
-  const deletIcon = createElement('img').setManyAttributes({ src: trashCan, alt: 'Delete task' });
+  const editIcon = createElement('img').setManyAttributes({
+    src: pencil,
+    alt: 'Edit task',
+  });
+  const deletIcon = createElement('img').setManyAttributes({
+    src: trashCan,
+    alt: 'Delete task',
+  });
 
   const spanEdit = createElement('span');
   const spanDelete = createElement('span');
@@ -68,17 +74,21 @@ function settingElements(active) {
   spanEdit.appendChild(editIcon);
   spanDelete.appendChild(deletIcon);
 
-  ([spanEdit, spanDelete]).forEach(elem => boxElement.appendChild(elem));
+  [spanEdit, spanDelete].forEach((elem) => boxElement.appendChild(elem));
 
-  if(active.id == 42) boxElement.removeChild(spanDelete);
+  if (active.id == 42) boxElement.removeChild(spanDelete);
 
   spanEdit.addEventListener('click', () => {
-    const editEvent = new CustomEvent(`edit${active.name}`, { detail: { ...active }});
+    const editEvent = new CustomEvent(`edit${active.name}`, {
+      detail: { ...active },
+    });
     document.dispatchEvent(editEvent);
   });
 
   spanDelete.addEventListener('click', () => {
-    const deleteEvent = new CustomEvent(`delete${active.name}`, { detail: { ...active }});
+    const deleteEvent = new CustomEvent(`delete${active.name}`, {
+      detail: { ...active },
+    });
     document.dispatchEvent(deleteEvent);
   });
 
@@ -86,16 +96,11 @@ function settingElements(active) {
 }
 
 // custom method to set attributes quickly
-HTMLElement.prototype.setManyAttributes = (function(attr){
+HTMLElement.prototype.setManyAttributes = function (attr) {
   for (const [key, value] of Object.entries(attr)) {
     this.setAttribute(key, value);
   }
   return this;
-});
+};
 
-export {
-  formData,
-  feedForm,
-  createElement,
-  settingElements,
-}
+export { formData, feedForm, createElement, settingElements };

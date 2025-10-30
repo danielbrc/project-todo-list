@@ -1,9 +1,6 @@
-
-import { NewProject, NewTask } from "./forms";
-import { feedForm, createElement, settingElements } from "./utils";
-import { formatDistanceToNow } from "date-fns";
-import pencil from "./../icon/pencil.png";
-import trashCan from "./../icon/trash-can.png"
+import { NewProject, NewTask } from './forms';
+import { feedForm, createElement, settingElements } from './utils';
+import { formatDistanceToNow } from 'date-fns';
 
 export default class AppTodo {
   constructor(container, projectController, todoController) {
@@ -27,7 +24,7 @@ export default class AppTodo {
   build() {
     this.sidebar.build();
     this.main.build();
-  };
+  }
 
   registerEvents() {
     console.log('Register Events');
@@ -50,7 +47,14 @@ export default class AppTodo {
 
     document.addEventListener('createTask', ({ detail }) => {
       const { id, name, description, dueDate, priority, done } = detail;
-      this.todoController.add(id, name, description.trim(), dueDate, priority, done);
+      this.todoController.add(
+        id,
+        name,
+        description.trim(),
+        dueDate,
+        priority,
+        done
+      );
 
       const activeTodo = this.todoController.activeTodo;
       this.projectController.addTodo(activeTodo);
@@ -62,7 +66,7 @@ export default class AppTodo {
       const projectId = detail.id;
       const projCont = this.projectController;
 
-      if(projectId != projCont.activeId){
+      if (projectId != projCont.activeId) {
         this.projectController.changeActiveProject(projectId);
         this.main.build();
       }
@@ -71,12 +75,19 @@ export default class AppTodo {
     document.addEventListener('updateTask', ({ detail }) => {
       const { id, name, description, dueDate, priority, done } = detail;
 
-      this.todoController.update(id, name, description, dueDate, priority, done);
+      this.todoController.update(
+        id,
+        name,
+        description,
+        dueDate,
+        priority,
+        done
+      );
       const activeTodo = this.todoController.activeTodo;
       this.projectController.addTodo(activeTodo);
     });
 
-    document.addEventListener('editProject', ({ detail }) => {
+    document.addEventListener('editProject', () => {
       this.newProject.build();
       const activeProject = this.projectController.activeProject();
       feedForm(activeProject, this.newProject.modal.firstChild);
@@ -101,7 +112,6 @@ export default class AppTodo {
 
       this.main.build();
     });
-
   }
 }
 
@@ -126,15 +136,19 @@ class Sidebar {
       document.dispatchEvent(event);
     });
 
-    ([title, button, list]).forEach(elem => this.content.appendChild(elem));
+    [title, button, list].forEach((elem) => this.content.appendChild(elem));
 
     for (const [key, project] of this.projectController.projects) {
-      const listItem = createElement('li', project.name, null, null, { id: key } );
+      const listItem = createElement('li', project.name, null, null, {
+        id: key,
+      });
       list.appendChild(listItem);
 
       listItem.addEventListener('click', (event) => {
         const projectId = Number(event.target.dataset.id);
-        const listEvent = new CustomEvent('changeMainProject', { detail: { id: projectId }});
+        const listEvent = new CustomEvent('changeMainProject', {
+          detail: { id: projectId },
+        });
         document.dispatchEvent(listEvent);
       });
     }
@@ -168,27 +182,33 @@ class Main {
       document.dispatchEvent(event);
     });
 
-    ([title, button, settings, description]).forEach(elem => top.appendChild(elem));
+    [title, button, settings, description].forEach((elem) =>
+      top.appendChild(elem)
+    );
 
-    for(const [key, todo] of activeProject.todos) {
-      const task = new Task(todo);
+    for (const todo of activeProject.todos) {
+      const task = new Task(todo[1]);
       this.content.appendChild(task.build());
     }
   }
 }
 
 class Task {
-  constructor(todo){
+  constructor(todo) {
     this.todo = todo;
   }
 
-  build(task) {
+  build() {
     const { id, name, description, dueDate, priority, done } = this.todo;
 
-    const timeLeft = formatDistanceToNow(new Date(dueDate), { addSuffix: true });
+    const timeLeft = formatDistanceToNow(new Date(dueDate), {
+      addSuffix: true,
+    });
 
-    const taskWrap = createElement('div', null, id, 'task', {'priority': priority });
-    const label = createElement('label', null, null,'fix-input');
+    const taskWrap = createElement('div', null, id, 'task', {
+      priority: priority,
+    });
+    const label = createElement('label', null, null, 'fix-input');
     const check = createElement('input').setManyAttributes({ name: 'done' });
     const title = createElement('h3', name);
     const span = createElement('span', timeLeft);
@@ -198,16 +218,18 @@ class Task {
     check.type = 'checkbox';
     label.appendChild(check);
 
-    if(done){
+    if (done) {
       check.checked = true;
     }
 
-    ([label, title, span, text, settings]).forEach(elem => taskWrap.appendChild(elem));
+    [label, title, span, text, settings].forEach((elem) =>
+      taskWrap.appendChild(elem)
+    );
 
     check.addEventListener('change', () => {
       this.todo.toggleStatus();
 
-      const event = new CustomEvent('updateTask', { detail: { ...this.todo }});
+      const event = new CustomEvent('updateTask', { detail: { ...this.todo } });
       document.dispatchEvent(event);
     });
 

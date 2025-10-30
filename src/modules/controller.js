@@ -1,6 +1,6 @@
-import Project from "./project";
-import Todo from "./todo";
-import { setStorage, getStorage } from "./storage";
+import Project from './project';
+import Todo from './todo';
+import { setStorage, getStorage } from './storage';
 
 export class ProjectController {
   constructor() {
@@ -11,16 +11,16 @@ export class ProjectController {
 
     // set Default project
     if (this.projects.size == 0) {
-      this.addProject(this.activeId, "Inbox", "Get things done!");
+      this.addProject(this.activeId, 'Inbox', 'Get things done!');
     }
   }
 
   addProject(id, name, description) {
     const newProject = new Project(id, name, description);
 
-    if(this.projects.has(id) && this.projects.get(id).todos.size > 0){
+    if (this.projects.has(id) && this.projects.get(id).todos.size > 0) {
       newProject.todos = this.projects.get(id).todos;
-    };
+    }
 
     this.projects.set(id, newProject);
 
@@ -58,8 +58,8 @@ export class ProjectController {
   }
 
   storedProject(stored) {
-    for(const [key, project] of stored) {
-      const { id, name, description, todos } = project;
+    for (const project of stored) {
+      const { id, name, description, todos } = project[1];
 
       const newProject = new Project(id, name, description);
       this.projects.set(id, newProject);
@@ -70,10 +70,17 @@ export class ProjectController {
 
   storedTodo(projectId, todos) {
     const project = this.projects.get(projectId);
-    for(const [k, todo] of todos) {
-      if(Object.hasOwn(todo,'name')){
-        const { id, name, description, dueDate, priority, done } = todo;
-        const newTodo = new Todo(id, name, description, dueDate, priority, done);
+    for (const todo of todos) {
+      if (Object.hasOwn(todo[1], 'name')) {
+        const { id, name, description, dueDate, priority, done } = todo[1];
+        const newTodo = new Todo(
+          id,
+          name,
+          description,
+          dueDate,
+          priority,
+          done
+        );
         project.addTodo(newTodo);
       }
     }
@@ -90,7 +97,14 @@ export class TodoController {
 
   add(id, name, description, dueDate, priority, done) {
     this.activeId = id || new Date().getTime();
-    const newTodo = new Todo(this.activeId, name, description, dueDate, priority, done);
+    const newTodo = new Todo(
+      this.activeId,
+      name,
+      description,
+      dueDate,
+      priority,
+      done
+    );
 
     this.todos.set(this.activeId, newTodo);
     this.changeActiveTodo(this.activeId);
@@ -101,7 +115,14 @@ export class TodoController {
   }
 
   update(id, name, description, dueDate, priority, done) {
-    const updatedTodo = new Todo(id, name, description, dueDate, priority, done);
+    const updatedTodo = new Todo(
+      id,
+      name,
+      description,
+      dueDate,
+      priority,
+      done
+    );
 
     this.todos.set(updatedTodo.id, updatedTodo);
     this.changeActiveTodo(updatedTodo.id);
@@ -110,5 +131,4 @@ export class TodoController {
   changeActiveTodo(id) {
     this.activeTodo = this.todos.get(id);
   }
-
 }

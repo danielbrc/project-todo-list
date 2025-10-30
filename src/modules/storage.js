@@ -1,4 +1,3 @@
-
 export function setStorage(data) {
   const stringified = JSON.stringify(Array.from(data.entries()), replacer);
   localStorage.setItem('todo', stringified);
@@ -12,7 +11,7 @@ export function getStorage(callback) {
 }
 
 function replacer(key, value) {
-  if(value instanceof Map) {
+  if (value instanceof Map) {
     return Array.from(value.entries());
   } else {
     return value;
@@ -20,8 +19,8 @@ function replacer(key, value) {
 }
 
 function retriever(key, value) {
-  if(key == 'todos') {
-    return value.length == 0 ? new Map() : new Map(value) ;
+  if (key == 'todos') {
+    return value.length == 0 ? new Map() : new Map(value);
   }
   return value;
 }

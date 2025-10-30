@@ -1,4 +1,3 @@
-
 export default class Project {
   constructor(id, name, description) {
     this.id = id;
@@ -14,6 +13,4 @@ export default class Project {
   removeTodo(id) {
     this.todos.delete(id);
   }
-
 }
-
